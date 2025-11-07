@@ -21,5 +21,5 @@ def conector():
         print(f"Erro de conexao: {erro}")
         return None, None
 
-conector()d
+conector()
     
