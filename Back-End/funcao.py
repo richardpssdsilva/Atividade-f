@@ -30,16 +30,30 @@ def listar_produtos():
             cursor.close()
             conexao.commit()
 
-def atualizar_produtos(id_filme, nova_nota):
+def atualizar_produtos(nome, preco):
     conexao, cursor = conector()
     if conexao: 
         try: 
             cursor.execute(
-                "UPDATE produtos SET nota = %s WHERE id = %s", (nova_nota, id_filme)
+                "UPDATE produtos SET nome = %s WHERE id = %s", (nome, preco)
                 )
             conexao.commit()
         except Exception as erro: 
             print(f"Erro ao atualizar o produtos {erro}")
+        finally:
+            cursor.close()
+            conexao.commit()
+
+def deletar_filme(id_produtos):
+    conexao, cursor = conector()
+    if conexao: 
+        try: 
+            cursor.execute(
+                "DELETE FROM produtos WHERE id = %s", (id_produtos,)
+                )
+            conexao.commit()
+        except Exception as erro: 
+            print(f"Erro ao deletar o produto {erro}")
         finally:
             cursor.close()
             conexao.commit()

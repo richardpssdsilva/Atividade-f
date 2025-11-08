@@ -8,7 +8,7 @@ load_dotenv()
 
 def conector():
     try:
-        conexao = pg(
+        conexao = pg.connect(
             database=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
@@ -16,9 +16,10 @@ def conector():
             port=os.getenv("DB_PORT")
         )
         cursor = conexao.cursor()
+        print("Conexão estabelecida")
         return conexao, cursor
     except Exception as erro:
-        print(f"Erro de conexao: {erro}")
+        print(f"Erro de Conexão {erro}")
         return None, None
 
 conector()
