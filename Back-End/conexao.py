@@ -1,14 +1,13 @@
-import psycopg2 as pg 
+import psycopg2
 from dotenv import load_dotenv
 import os
 
-#Carregar .env
+# Carregar variáveis do arquivo .env
 load_dotenv()
-
 
 def conector():
     try:
-        conexao = pg.connect(
+        conexao = psycopg2.connect(
             database=os.getenv("DB_NAME"),
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
@@ -16,11 +15,10 @@ def conector():
             port=os.getenv("DB_PORT")
         )
         cursor = conexao.cursor()
-        print("Conexão estabelecida")
+        print("Conexão com PostgreSQL bem-sucedida!")
         return conexao, cursor
-    except Exception as erro:
-        print(f"Erro de Conexão {erro}")
-        return None, None
 
+    except Exception as erro:
+        print(f"Erro de conexão: {erro}")
+        return None, None
 conector()
-    
