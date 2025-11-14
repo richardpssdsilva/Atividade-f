@@ -1,41 +1,53 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 import funcao
-
 #Como executar o fastapi
 # python -m uvicorn main:app --reload
 
-app = FastAPI(title="Gerenciador de filmes")
+app = FastAPI(title="Gerenciador de produtps")
 
 #Criando uma rota
 @app.get("/")
 def home():
-    return { "mensagem": "Bem-vindo ao gerenciador de filmes"}
+    return { "mensagem": "Bem-vindo ao gerenciador de produtos"}
 
-@app.post("/filmes")
-def criar_filme(titulo: str, genero: str, ano: int, nota: float):
-    funcao.cadastrar_filme(titulo, genero, ano, nota)
-    return {"mensagem": "Filme cadastrado com sucesso!"}
-@app.get("/filmes")
-def exibir_filmes():
-    filmes = funcao.listar_filmes()
+@app.post("/produtos")
+def criar_produto(produto: str, preco: str):
+    funcao.adicionar_produto(produto, preco)
+    return {"mensagem": "produto adicionado com sucesso!"}
+@app.get("/produtos")
+def listar_produtos():
+    produtos = funcao.listar_produtos()
     lista = []
-    for linha in filmes:
+    for linha in produtos:
         lista.append(
         {
             "id":linha [0],
-            "titulo":linha [1],
-            "genero":linha [2],
-            "ano":linha [3],
-            "nota":linha [4],
+            "nome":linha [1],
+            "preco":linha [2],
         }
         )
-    return{"filmes":lista}
+    return{"produtos":lista}
 
-@app.delete("/filmes/{d_filmes}")
-def deletar_filme(id_filme: int):
-    filmes = funcao.buscar_filme(id_filme)
-    if filmes:
-        funcao.deletar_filme(id_filme)
-        return{"mensagem": "Filme excluido com sucesso!"}
+@app.delete("/produtos/{id_produtos}")
+def deletar_produtos(id_produtos: int):
+    produtos = funcao.buscar_produtos(id_produtos)
+    if produtos:
+        funcao.deletar_produtos(id_produtos)
+        return{"mensagem": "Produto excluido com sucesso!"}
     else:
-        {"erro":"Filme não encotrado"}
+        {"erro":"Produto não encotrado"}
+        
+app = FastAPI()
+
+@app.get("/favicon.ico")
+def favicon():
+    return FileResponse("favicon.ico")
+
+
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"msg": "API funcionando!"}
